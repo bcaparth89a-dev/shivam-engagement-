@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import ImageCrossfade, { HeroSlide } from '@/components/motion/ImageCrossfade';
 import { invitation } from '@/data/invitation';
+import { EASE_LUXURY } from '@/lib/animations';
 
 const HERO_SLIDES: readonly HeroSlide[] = [
   {
@@ -163,26 +164,33 @@ export default function HeroSection() {
 
       {/* 2. Top Traditional Marathi Ganesh Blessing & Golden Kalash (Smart Adaptive Contrast) */}
       <motion.div
-        initial={{ opacity: 0, y: -14 }}
+        initial={{ opacity: 0, y: -16 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ duration: 1.1, delay: 0.15, ease: EASE_LUXURY }}
         className="relative z-10 w-full pt-[clamp(24px,4.5vh,52px)] px-4 text-center flex flex-col items-center"
       >
         {/* Localized soft radial scrim behind icon & blessing for 100% legibility */}
-        <div
-          className="relative inline-flex flex-col items-center px-6 py-2 rounded-full"
-        >
+        <div className="relative inline-flex flex-col items-center px-6 py-2 rounded-full">
           <div
             className="absolute inset-0 -top-2 -bottom-2 rounded-full bg-[radial-gradient(ellipse_at_center,_rgba(0,0,0,0.45)_0%,_rgba(0,0,0,0.12)_65%,_transparent_100%)] pointer-events-none -z-10"
             aria-hidden="true"
           />
 
-          <GoldenKalashIcon
-            isDark={isDark}
-            className="h-7 w-7 sm:h-8 sm:w-8 md:h-9 md:w-9 mb-1.5 sm:mb-2"
-          />
+          <motion.div
+            initial={{ opacity: 0, scale: 0.88 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.9, delay: 0.25, ease: EASE_LUXURY }}
+          >
+            <GoldenKalashIcon
+              isDark={isDark}
+              className="h-7 w-7 sm:h-8 sm:w-8 md:h-9 md:w-9 mb-1.5 sm:mb-2"
+            />
+          </motion.div>
 
-          <p
+          <motion.p
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: 0.35, ease: EASE_LUXURY }}
             className={`font-devanagari text-lg sm:text-2xl md:text-[1.65rem] tracking-[0.22em] font-bold transition-all duration-700 ease-in-out ${
               isDark
                 ? 'text-[#FFF8E7] drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)] drop-shadow-[0_0_14px_rgba(232,200,122,0.45)]'
@@ -190,31 +198,44 @@ export default function HeroSection() {
             }`}
           >
             ॥ श्री गणेशाय नमः ॥
-          </p>
+          </motion.p>
         </div>
       </motion.div>
 
       {/* 3. Fixed Centered Couple Names (Luxury Serif with Ivory & Gold Tones) */}
       <div className="relative z-10 w-full px-4 sm:px-6 md:px-8 pb-[clamp(36px,6vh,72px)] text-center flex flex-col items-center">
         <motion.h1
-          initial={{ opacity: 0, y: 18 }}
+          initial={{ opacity: 0, y: 22 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.2, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 1.2, delay: 0.35, ease: EASE_LUXURY }}
           className="font-display text-[clamp(2.75rem,7.5vw,6.4rem)] font-normal tracking-tight leading-none text-[#FFFDF7] drop-shadow-[0_4px_28px_rgba(0,0,0,0.9)]"
         >
-          <span className="inline-block">
+          <motion.span
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.45, ease: EASE_LUXURY }}
+            className="inline-block"
+          >
             {invitation.couple.groom}
-          </span>
-          <span className="mx-2.5 sm:mx-4 md:mx-6 font-serif italic font-light text-[#E8C87A] drop-shadow-[0_2px_16px_rgba(201,154,62,0.4)]">
+          </motion.span>
+          <motion.span
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.6, ease: EASE_LUXURY }}
+            className="mx-2.5 sm:mx-4 md:mx-6 font-serif italic font-light text-[#E8C87A] drop-shadow-[0_2px_16px_rgba(201,154,62,0.4)]"
+          >
             &amp;
-          </span>
-          <span className="inline-block">
+          </motion.span>
+          <motion.span
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.7, ease: EASE_LUXURY }}
+            className="inline-block"
+          >
             {invitation.couple.bride}
-          </span>
+          </motion.span>
         </motion.h1>
       </div>
     </section>
   );
 }
-
-

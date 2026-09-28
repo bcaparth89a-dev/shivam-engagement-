@@ -5,11 +5,18 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 import SectionDivider from '@/components/decorative/SectionDivider';
 import SideBotanical from '@/components/decorative/SideBotanical';
+import { EASE_LUXURY, VIEWPORT_CONFIG } from '@/lib/animations';
 
-// Elegant Gold Arch Top Crest Ornament
+// Elegant Gold Arch Top Crest Ornament with Smooth Drop Entrance
 function ArchGoldCrest() {
   return (
-    <div className="absolute -top-5 left-1/2 -translate-x-1/2 z-20 pointer-events-none drop-shadow-sm">
+    <motion.div
+      initial={{ opacity: 0, y: -10 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={VIEWPORT_CONFIG}
+      transition={{ duration: 0.8, delay: 0.45, ease: EASE_LUXURY }}
+      className="absolute -top-5 left-1/2 -translate-x-1/2 z-20 pointer-events-none drop-shadow-sm"
+    >
       <svg
         width="60"
         height="26"
@@ -41,18 +48,32 @@ function ArchGoldCrest() {
         />
         <circle cx="54" cy="12.5" r="1.2" fill="#D9B76A" />
       </svg>
-    </div>
+    </motion.div>
   );
 }
 
-// Delicate Corner Floral Petal Motif
+// Delicate Corner Floral Petal Motif with Soft Corner Slide Reveal
 function CornerFloralAccent({ position }: { position: 'left' | 'right' }) {
   const isRight = position === 'right';
   return (
-    <div
+    <motion.div
+      initial={{
+        opacity: 0,
+        x: isRight ? 16 : -16,
+        y: 10,
+        rotate: isRight ? 24 : -24,
+      }}
+      whileInView={{
+        opacity: 0.85,
+        x: 0,
+        y: 0,
+        rotate: isRight ? 12 : -12,
+      }}
+      viewport={VIEWPORT_CONFIG}
+      transition={{ duration: 0.9, delay: 0.5, ease: EASE_LUXURY }}
       className={`absolute -bottom-4 ${
-        isRight ? '-right-4 sm:-right-6 rotate-12' : '-left-4 sm:-left-6 -rotate-12 -scale-x-100'
-      } z-20 pointer-events-none opacity-80`}
+        isRight ? '-right-4 sm:-right-6' : '-left-4 sm:-left-6 -scale-x-100'
+      } z-20 pointer-events-none`}
       aria-hidden="true"
     >
       <svg
@@ -86,7 +107,7 @@ function CornerFloralAccent({ position }: { position: 'left' | 'right' }) {
         />
         <circle cx="22" cy="22" r="2.5" fill="#D9B76A" />
       </svg>
-    </div>
+    </motion.div>
   );
 }
 
@@ -99,7 +120,7 @@ export default function OurStory() {
       {/* Background Soft Glow & Subtle Traditional Gradient */}
       <div className="absolute inset-0 bg-gradient-to-b from-[#FFFDF6] via-[#FFF8E7] to-[#FFFDF6] opacity-95 pointer-events-none" />
 
-      {/* Decorative Side Botanical Vines on Extra-Wide Viewports */}
+      {/* Decorative Side Botanical Vines with Parallax on Extra-Wide Viewports */}
       <SideBotanical side="left" />
       <SideBotanical side="right" />
 
@@ -107,10 +128,10 @@ export default function OurStory() {
       <div className="relative z-10 w-[min(94vw,1400px)] mx-auto px-4 sm:px-6 md:px-8 lg:px-12 flex flex-col items-center">
         {/* 1. Small Eyebrow */}
         <motion.p
-          initial={{ opacity: 0, y: 8 }}
+          initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
+          viewport={VIEWPORT_CONFIG}
+          transition={{ duration: 0.7, delay: 0.1, ease: EASE_LUXURY }}
           className="font-body text-xs sm:text-sm md:text-base uppercase tracking-[0.32em] text-green font-semibold"
         >
           A Sacred Beginning
@@ -118,18 +139,24 @@ export default function OurStory() {
 
         {/* 2. Main Heading & Marathi Subtitle */}
         <motion.div
-          initial={{ opacity: 0, y: 14 }}
+          initial={{ opacity: 0, y: 18 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
+          viewport={VIEWPORT_CONFIG}
+          transition={{ duration: 0.85, delay: 0.2, ease: EASE_LUXURY }}
           className="my-3 sm:my-5"
         >
           <h2 className="font-display text-[clamp(2.35rem,5.5vw,5.2rem)] text-maroon font-normal leading-[1.12]">
             Journey of Togetherness
           </h2>
-          <p className="mt-2 sm:mt-3 font-devanagari text-xl sm:text-2xl md:text-3xl lg:text-[2.1rem] text-deep-red font-semibold tracking-wide">
+          <motion.p
+            initial={{ opacity: 0, y: 8 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={VIEWPORT_CONFIG}
+            transition={{ duration: 0.75, delay: 0.32, ease: EASE_LUXURY }}
+            className="mt-2 sm:mt-3 font-devanagari text-xl sm:text-2xl md:text-3xl lg:text-[2.1rem] text-deep-red font-semibold tracking-wide"
+          >
             ॥ नव्या प्रवासाची सुंदर सुरुवात ॥
-          </p>
+          </motion.p>
         </motion.div>
 
         {/* 3. Top Decorative Divider */}
@@ -137,15 +164,15 @@ export default function OurStory() {
 
         {/* 4. Centerpiece Couple Photograph in Luxury Arched Gold Frame */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.97, y: 16 }}
+          initial={{ opacity: 0, scale: 0.96, y: 22 }}
           whileInView={{ opacity: 1, scale: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.15 }}
-          transition={{ duration: 1.1, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-          className="relative my-6 sm:my-8 md:my-10 w-full max-w-[340px] xs:max-w-[380px] sm:max-w-[420px] md:max-w-[460px] mx-auto flex flex-col items-center select-none"
+          viewport={VIEWPORT_CONFIG}
+          transition={{ duration: 1.1, delay: 0.35, ease: EASE_LUXURY }}
+          className="relative my-6 sm:my-8 md:my-10 w-full max-w-[340px] xs:max-w-[380px] sm:max-w-[420px] md:max-w-[460px] mx-auto flex flex-col items-center select-none group"
         >
           {/* Subtle Ambient Gold Radiance behind frame */}
           <div
-            className="absolute -inset-3 rounded-t-[160px] sm:rounded-t-[200px] rounded-b-3xl bg-[radial-gradient(ellipse_at_center,_rgba(217,183,106,0.3)_0%,_rgba(142,27,50,0.1)_60%,_transparent_100%)] blur-xl pointer-events-none"
+            className="absolute -inset-3 rounded-t-[160px] sm:rounded-t-[200px] rounded-b-3xl bg-[radial-gradient(ellipse_at_center,_rgba(217,183,106,0.3)_0%,_rgba(142,27,50,0.1)_60%,_transparent_100%)] blur-xl pointer-events-none group-hover:opacity-100 transition-opacity duration-500"
             aria-hidden="true"
           />
 
@@ -167,7 +194,7 @@ export default function OurStory() {
                 unoptimized
                 sizes="(max-width: 640px) 90vw, (max-width: 1024px) 460px, 480px"
                 priority
-                className="object-cover object-[center_20%] transition-transform duration-700 ease-out hover:scale-[1.02]"
+                className="object-cover object-[center_20%] transition-transform duration-700 ease-out group-hover:scale-[1.025]"
               />
             </div>
           </div>
@@ -175,10 +202,10 @@ export default function OurStory() {
 
         {/* 5. Main Narrative Paragraph */}
         <motion.div
-          initial={{ opacity: 0, y: 14 }}
+          initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.85, delay: 0.45 }}
+          viewport={VIEWPORT_CONFIG}
+          transition={{ duration: 0.85, delay: 0.48, ease: EASE_LUXURY }}
           className="max-w-[980px] mx-auto px-2 sm:px-4 my-2 sm:my-3"
         >
           <p className="font-body text-base sm:text-lg md:text-xl lg:text-[1.2rem] leading-[1.85] text-brown/90 font-normal">
@@ -191,10 +218,10 @@ export default function OurStory() {
 
         {/* 7. Traditional Sanskrit Mangala Shloka */}
         <motion.div
-          initial={{ opacity: 0, y: 10 }}
+          initial={{ opacity: 0, y: 14 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.85, delay: 0.6 }}
+          viewport={VIEWPORT_CONFIG}
+          transition={{ duration: 0.85, delay: 0.6, ease: EASE_LUXURY }}
           className="max-w-[1050px] mx-auto px-2 sm:px-4"
         >
           <p className="font-devanagari text-base sm:text-xl md:text-2xl lg:text-[1.45rem] text-maroon font-semibold tracking-wide leading-relaxed">
@@ -207,5 +234,3 @@ export default function OurStory() {
     </section>
   );
 }
-
-

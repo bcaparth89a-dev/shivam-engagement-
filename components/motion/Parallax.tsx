@@ -1,11 +1,11 @@
 'use client';
 
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
 import { ReactNode, useRef } from 'react';
 
 export default function Parallax({
   children,
-  strength = 20,
+  strength = 16,
   className = '',
 }: {
   children: ReactNode;
@@ -13,11 +13,18 @@ export default function Parallax({
   className?: string;
 }) {
   const ref = useRef<HTMLDivElement>(null);
+  const shouldReduceMotion = useReducedMotion();
+
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ['start end', 'end start'],
   });
+
   const y = useTransform(scrollYProgress, [0, 1], [-strength, strength]);
+
+  if (shouldReduceMotion) {
+    return <div className={className}>{children}</div>;
+  }
 
   return (
     <div ref={ref} className={className}>
