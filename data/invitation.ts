@@ -19,8 +19,8 @@ export const sacredUnionContent = {
     brideMarathi: 'चि. सौ. का. उपासना',
     role: 'वधू (Bride)',
     image: '/couple-images/bride.jpeg',
-    father: 'Sunjaybhai Salunke',
-    mother: 'Geetaben Salunke',
+    father: 'Umeshbhai Salunke',
+    mother: 'Chayaben Salunke',
   },
 } as const;
 
@@ -41,8 +41,8 @@ export const invitation = {
     title: 'Engagement Ceremony',
     date: '20 October 2026',
     day: 'Tuesday',
-    time: '12:30 PM',
-    muhuratMarathi: 'दुपारी १२:३० वा.',
+    time: '9:30 AM',
+    muhuratMarathi: 'सकाळी ९:३० वा.',
     dateShort: { day: '20', month: '10', year: '2026' },
     venue: 'Police Community Hall',
     address: 'Near Circuit House, Koti Road, Amreli',

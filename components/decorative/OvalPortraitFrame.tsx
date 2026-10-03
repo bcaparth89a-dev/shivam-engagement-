@@ -9,6 +9,7 @@ interface OvalPortraitFrameProps {
   alt: string;
   imagePosition?: string;
   className?: string;
+  onClick?: () => void;
 }
 
 export default function OvalPortraitFrame({
@@ -16,110 +17,122 @@ export default function OvalPortraitFrame({
   alt,
   imagePosition = 'object-[center_22%]',
   className = '',
+  onClick,
 }: OvalPortraitFrameProps) {
   return (
     <div className={`relative flex flex-col items-center justify-center select-none ${className}`}>
       <motion.div
-        whileHover={{ scale: 1.025, y: -2 }}
-        transition={{ duration: 0.35, ease: 'easeOut' }}
-        className="relative group cursor-default flex flex-col items-center justify-center"
+        whileHover={{ scale: 1.03, y: -3 }}
+        whileTap={{ scale: 0.98 }}
+        transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+        onClick={onClick}
+        className={`relative group flex flex-col items-center justify-center ${onClick ? 'cursor-pointer' : 'cursor-default'}`}
+        role={onClick ? 'button' : undefined}
+        tabIndex={onClick ? 0 : undefined}
+        aria-label={onClick ? `View ${alt} full size` : alt}
       >
-        {/* Subtle Ambient Gold Glow */}
+        {/* Radiant Ambient Gold Aura */}
         <div
-          className="absolute -inset-2 rounded-[50%] bg-gradient-to-b from-[#D9B76A]/25 via-[#8E1B32]/10 to-transparent blur-md opacity-60 group-hover:opacity-95 transition-opacity duration-400 pointer-events-none"
+          className="absolute -inset-3 rounded-[50%] bg-gradient-to-b from-[#D9B76A]/30 via-[#8E1B32]/15 to-transparent blur-lg opacity-70 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
           aria-hidden="true"
         />
 
-        {/* Delicate Top Floral Crest Accent */}
+        {/* Top Royal Filigree Crown Crest */}
         <div
-          className="absolute -top-3.5 sm:-top-4 left-1/2 -translate-x-1/2 z-20 pointer-events-none drop-shadow-xs"
+          className="absolute -top-4 sm:-top-4.5 left-1/2 -translate-x-1/2 z-20 pointer-events-none drop-shadow-sm"
           aria-hidden="true"
         >
           <svg
-            width="50"
-            height="22"
-            viewBox="0 0 50 22"
+            width="56"
+            height="26"
+            viewBox="0 0 56 26"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            className="w-9 sm:w-11 md:w-12 h-auto"
+            className="w-10 sm:w-12 md:w-14 h-auto"
           >
-            {/* Center Finial Bud */}
             <path
-              d="M25 2 C28 6, 29 10, 25 14 C21 10, 22 6, 25 2 Z"
+              d="M28 2 C32 7, 34 12, 28 17 C22 12, 24 7, 28 2 Z"
               fill="#8E1B32"
               stroke="#D9B76A"
-              strokeWidth="0.8"
-            />
-            <circle cx="25" cy="1.5" r="1.2" fill="#D9B76A" />
-
-            {/* Left Leaf Curl */}
-            <path
-              d="M22 11 C17 9, 12 5, 6 9 C11 12, 17 13, 21 13"
-              stroke="#D9B76A"
               strokeWidth="1"
+            />
+            <circle cx="28" cy="2" r="1.5" fill="#FFFDF7" stroke="#D4AF37" strokeWidth="0.5" />
+
+            <path
+              d="M24 13 C18 11, 12 6, 5 11 C11 15, 18 16, 23 16"
+              stroke="#D9B76A"
+              strokeWidth="1.2"
               strokeLinecap="round"
             />
-            <circle cx="7" cy="8.5" r="1" fill="#D9B76A" />
+            <circle cx="6" cy="10.5" r="1.2" fill="#D9B76A" />
 
-            {/* Right Leaf Curl */}
             <path
-              d="M28 11 C33 9, 38 5, 44 9 C39 12, 33 13, 29 13"
+              d="M32 13 C38 11, 44 6, 51 11 C45 15, 38 16, 33 16"
               stroke="#D9B76A"
-              strokeWidth="1"
+              strokeWidth="1.2"
               strokeLinecap="round"
             />
-            <circle cx="43" cy="8.5" r="1" fill="#D9B76A" />
+            <circle cx="50" cy="10.5" r="1.2" fill="#D9B76A" />
           </svg>
         </div>
 
-        {/* Vertical Oval Frame Container (Explicit Responsive Dimensions) */}
-        <div className="relative w-[130px] h-[170px] xs:w-[140px] xs:h-[185px] sm:w-[150px] sm:h-[195px] md:w-[165px] md:h-[215px] rounded-[50%] p-1.5 sm:p-2 bg-gradient-to-b from-[#FFFDF7] via-[#FAF4E5] to-[#F5EAD2] border-[1.5px] border-[#D9B76A] shadow-[0_6px_22px_rgba(104,19,38,0.12),0_2px_8px_rgba(217,183,106,0.25)] shrink-0">
+        {/* Vertical Oval Frame Outer Shell */}
+        <div className="relative w-[136px] h-[178px] xs:w-[148px] xs:h-[195px] sm:w-[160px] sm:h-[210px] md:w-[176px] md:h-[230px] rounded-[50%] p-1.5 sm:p-2 bg-gradient-to-b from-[#FFFDF7] via-[#F8EFE0] to-[#EBD9BA] border-[1.8px] border-[#D9B76A] shadow-[0_10px_28px_rgba(88,17,26,0.15),0_2px_10px_rgba(217,183,106,0.35)] shrink-0">
           {/* Inner Inset Rim & Image */}
-          <div className="relative w-full h-full rounded-[50%] overflow-hidden border border-[#D9B76A]/60 bg-[#1a080c]">
+          <div className="relative w-full h-full rounded-[50%] overflow-hidden border border-[#D9B76A]/80 bg-[#160408]">
             <Image
               src={imageSrc}
               alt={alt}
               fill
               unoptimized
-              sizes="(max-width: 640px) 140px, (max-width: 1024px) 170px, 200px"
+              sizes="(max-width: 640px) 150px, (max-width: 1024px) 180px, 220px"
               priority
-              className={`object-cover transition-transform duration-600 ease-out group-hover:scale-104 ${imagePosition}`}
+              className={`object-cover transition-transform duration-700 ease-out group-hover:scale-105 ${imagePosition}`}
             />
+
+            {/* Click to Zoom Hover Overlay Indicator */}
+            {onClick && (
+              <div className="absolute inset-0 bg-[#3A0811]/35 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center pointer-events-none">
+                <span className="w-8 h-8 rounded-full bg-[#FAF6EE]/90 text-[#58111A] flex items-center justify-center shadow-md">
+                  🔍
+                </span>
+              </div>
+            )}
           </div>
         </div>
 
-        {/* Delicate Bottom Lotus Base Accent */}
+        {/* Bottom Sacred Lotus Base Accent */}
         <div
-          className="absolute -bottom-3 sm:-bottom-3.5 left-1/2 -translate-x-1/2 z-20 pointer-events-none drop-shadow-xs"
+          className="absolute -bottom-3.5 sm:-bottom-4 left-1/2 -translate-x-1/2 z-20 pointer-events-none drop-shadow-sm"
           aria-hidden="true"
         >
           <svg
-            width="44"
-            height="16"
-            viewBox="0 0 44 16"
+            width="48"
+            height="18"
+            viewBox="0 0 48 18"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            className="w-8 sm:w-10 md:w-11 h-auto"
+            className="w-9 sm:w-11 md:w-12 h-auto"
           >
             <path
-              d="M22 13 C19 9, 19 4, 22 1 C25 4, 25 9, 22 13 Z"
+              d="M24 15 C20 10, 20 4, 24 1 C28 4, 28 10, 24 15 Z"
               fill="#D9B76A"
               stroke="#8E1B32"
-              strokeWidth="0.75"
+              strokeWidth="0.8"
             />
             <path
-              d="M20 10 C15 8, 8 9, 4 12 C10 11, 16 10, 20 10 Z"
+              d="M21 11 C16 9, 8 10, 4 14 C11 13, 17 12, 21 11 Z"
               fill="#D9B76A"
-              fillOpacity="0.8"
-              stroke="#C99A3E"
-              strokeWidth="0.5"
+              fillOpacity="0.9"
+              stroke="#C5A059"
+              strokeWidth="0.6"
             />
             <path
-              d="M24 10 C29 8, 36 9, 40 12 C34 11, 28 10, 24 10 Z"
+              d="M27 11 C32 9, 40 10, 44 14 C37 13, 31 12, 27 11 Z"
               fill="#D9B76A"
-              fillOpacity="0.8"
-              stroke="#C99A3E"
-              strokeWidth="0.5"
+              fillOpacity="0.9"
+              stroke="#C5A059"
+              strokeWidth="0.6"
             />
           </svg>
         </div>
@@ -127,4 +140,5 @@ export default function OvalPortraitFrame({
     </div>
   );
 }
+
 

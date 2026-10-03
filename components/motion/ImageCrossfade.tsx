@@ -26,19 +26,19 @@ export const DEFAULT_HERO_SLIDES: readonly HeroSlide[] = [
     src: '/couple-images/groom.jpeg',
     alt: 'Shivam — Groom',
     theme: 'light',
-    position: 'object-[center_18%] sm:object-[center_22%] lg:object-[center_25%]',
+    position: 'object-[center_16%] xs:object-[center_18%] sm:object-[center_22%] lg:object-[center_25%]',
   },
   {
     src: '/couple-images/bride.jpeg',
     alt: 'Upasana — Bride',
     theme: 'light',
-    position: 'object-[center_18%] sm:object-[center_22%] lg:object-[center_25%]',
+    position: 'object-[center_16%] xs:object-[center_18%] sm:object-[center_22%] lg:object-[center_25%]',
   },
   {
     src: '/couple-images/couple1.jpeg',
     alt: 'Shivam & Upasana',
     theme: 'dark',
-    position: 'object-[center_26%] sm:object-[center_28%] lg:object-[center_30%]',
+    position: 'object-[center_20%] xs:object-[center_22%] sm:object-[center_28%] lg:object-[center_30%]',
   },
 ];
 
@@ -46,7 +46,7 @@ export default function ImageCrossfade({
   slides,
   images,
   intervalMs = 5500,
-  transitionMs = 1400,
+  transitionMs = 1500,
   currentIndex: controlledIndex,
   onIndexChange,
   alt = 'Engagement Couple',
@@ -115,6 +115,13 @@ export default function ImageCrossfade({
         const isPrev = index === (activeIndex - 1 + totalSlides) % totalSlides;
         const zIndex = isActive ? 20 : isPrev ? 10 : 0;
 
+        const kenBurnsTransforms = [
+          { active: 'scale(1.065) translate3d(0, -1.2%, 0)', idle: 'scale(1.0) translate3d(0, 0, 0)' },
+          { active: 'scale(1.015) translate3d(0, 0.8%, 0)', idle: 'scale(1.07) translate3d(0, -0.5%, 0)' },
+          { active: 'scale(1.075) translate3d(0, -1.5%, 0)', idle: 'scale(1.0) translate3d(0, 0, 0)' },
+        ];
+        const currentTransform = kenBurnsTransforms[index % kenBurnsTransforms.length];
+
         return (
           <div
             key={slide.src}
@@ -124,7 +131,7 @@ export default function ImageCrossfade({
               opacity: isActive ? 1 : 0,
               transitionProperty: 'opacity',
               transitionDuration: `${transitionMs}ms`,
-              transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)',
+              transitionTimingFunction: 'cubic-bezier(0.22, 1, 0.36, 1)',
             }}
           >
             <div
@@ -133,11 +140,11 @@ export default function ImageCrossfade({
                 transform: reducedMotion
                   ? 'scale(1)'
                   : isActive
-                  ? 'scale(1.028)'
-                  : 'scale(1.0)',
+                  ? currentTransform.active
+                  : currentTransform.idle,
                 transitionProperty: reducedMotion ? 'none' : 'transform',
                 transitionDuration: `${intervalMs + transitionMs}ms`,
-                transitionTimingFunction: 'cubic-bezier(0.25, 1, 0.5, 1)',
+                transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
               }}
             >
               <Image
@@ -147,7 +154,7 @@ export default function ImageCrossfade({
                 priority={priority || index === 0}
                 unoptimized
                 sizes="100vw"
-                className={`object-cover ${slide.position || 'object-center'}`}
+                className={`object-cover ${slide.position || 'object-center'} filter contrast-[1.03] brightness-[0.98]`}
               />
             </div>
           </div>
@@ -156,4 +163,5 @@ export default function ImageCrossfade({
     </div>
   );
 }
+
 

@@ -9,75 +9,72 @@ export default function BackgroundMusic() {
     const audio = audioRef.current;
     if (!audio) return;
 
-    // Ensure properties for seamless continuous background playback
-    audio.volume = 1.0;
+    audio.volume = 0.85;
     audio.loop = true;
 
-    let hasStarted = false;
+    let isPlaying = false;
 
-    const playAudio = () => {
-      if (hasStarted || !audio) return;
+    const tryPlay = () => {
+      if (isPlaying || !audio) return;
 
-      const playPromise = audio.play();
-      if (playPromise !== undefined) {
-        playPromise
+      const promise = audio.play();
+      if (promise !== undefined) {
+        promise
           .then(() => {
-            hasStarted = true;
-            removeUnlockListeners();
+            isPlaying = true;
+            removeListeners();
           })
           .catch(() => {
-            // Browser autoplay policy blocked immediate playback without user gesture.
-            // Listeners remain attached to trigger on first interaction (click, touch, scroll, key).
+            // Autoplay was blocked by browser policy without user gesture.
+            // Listeners will trigger on the very first user interaction.
           });
       }
     };
 
     // 1. Attempt immediate playback on page open
-    playAudio();
+    tryPlay();
 
-    // 2. Global interaction listeners as fallback for strict browser autoplay policies
-    const unlockEvents = [
+    // 2. Comprehensive interaction events as fallback for strict browser autoplay policies
+    const interactionEvents = [
       'click',
       'touchstart',
       'touchend',
       'pointerdown',
+      'pointerup',
       'scroll',
       'wheel',
       'keydown',
     ];
 
-    const handleUserInteraction = () => {
-      playAudio();
+    const handleInteraction = () => {
+      tryPlay();
     };
 
-    const addUnlockListeners = () => {
-      unlockEvents.forEach((event) => {
-        window.addEventListener(event, handleUserInteraction, {
-          passive: true,
-          capture: true,
-        });
+    const addListeners = () => {
+      interactionEvents.forEach((event) => {
+        window.addEventListener(event, handleInteraction, { capture: true, passive: true });
+        document.addEventListener(event, handleInteraction, { capture: true, passive: true });
       });
     };
 
-    const removeUnlockListeners = () => {
-      unlockEvents.forEach((event) => {
-        window.removeEventListener(event, handleUserInteraction, {
-          capture: true,
-        });
+    const removeListeners = () => {
+      interactionEvents.forEach((event) => {
+        window.removeEventListener(event, handleInteraction, { capture: true });
+        document.removeEventListener(event, handleInteraction, { capture: true });
       });
     };
 
-    addUnlockListeners();
+    addListeners();
 
-    // Also attempt playback when audio metadata/data is ready
-    audio.addEventListener('canplay', playAudio, { once: true });
-    audio.addEventListener('loadeddata', playAudio, { once: true });
+    // Also attempt playback when audio data is buffered
+    audio.addEventListener('canplaythrough', tryPlay, { once: true });
+    audio.addEventListener('loadeddata', tryPlay, { once: true });
 
     return () => {
-      removeUnlockListeners();
+      removeListeners();
       if (audio) {
-        audio.removeEventListener('canplay', playAudio);
-        audio.removeEventListener('loadeddata', playAudio);
+        audio.removeEventListener('canplaythrough', tryPlay);
+        audio.removeEventListener('loadeddata', tryPlay);
       }
     };
   }, []);
@@ -85,14 +82,17 @@ export default function BackgroundMusic() {
   return (
     <audio
       ref={audioRef}
-      src="/music/background-music.mpeg"
       preload="auto"
       loop
       autoPlay
       playsInline
       className="hidden"
       aria-hidden="true"
-    />
+    >
+      <source src="/music/background-music.mpeg" type="audio/mpeg" />
+      <source src="/music/background-music.mpeg" type="audio/mp3" />
+    </audio>
   );
 }
+
 
